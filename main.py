@@ -28,8 +28,7 @@ def post_to_me():
     data = request.args.get("message")
   else:
     data = request.data
-  #telegrambot.sendMessage("706061752", data)
-  telegrambot.sendMessage("@tongvuu", data)
+  telegrambot.sendMessage("706061752", data)
   return "OK"
 
 @app.route("/revealcoords", methods=["GET"])
