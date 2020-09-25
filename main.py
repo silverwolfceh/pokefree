@@ -22,6 +22,11 @@ def telegrambot_handle():
 		bot.handle()
 	return ""
 
+@app.route("/showpokes", methods=["GET"])
+def show_current_rare_list():
+	rlist = telegrambot.get_rare_poke()
+	return "<br />".join(rlist)
+
 @app.route("/posttome", methods=["POST", "GET"])
 def post_to_me():
   if request.method == "GET":

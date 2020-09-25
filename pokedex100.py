@@ -41,19 +41,35 @@ class PokeDex100(object):
 		cp = self._get_pokeCP()
 		level = self._get_pokeLVL()
 		return name,cp,level
-		
+
+	def _embed_debug(self, embeds):
+		for embed in embeds:
+			print(embed.type)
+			print(embed.description)
+			print(embed.fields)
+	
+	def _attachment_debug(self, attachments):
+		for a in attachments:
+			print(a.url)
 
 	def _get_url(self):
 		embeds = self.discord_msg.embeds
+		#print(self.discord_msg.content)
+		#print(self.discord_msg)
 		for embed in embeds:
-			raw = str(embed.fields[0])
-			s = raw.find("/free=")
-			e = raw.find(")", s + 1)
-			if s == -1 or e == -1:
-				print("Failed to get url")
-				return ""
-			url = raw[s + 6 : e]
-			return url
+			if len(embed.description) > 0:
+				raw = str(embed.description)
+				s = raw.find("/free=")
+				e = raw.find(")", s + 1)
+				if s == -1 or e == -1:
+					print("Failed to get url")
+					return ""
+				url = raw[s + 6 : e]
+				return url
+			else:
+				print("Embeded changes")
+				self._embed_debug(embeds)
+				return "^^"
 		print("Failed to find url")
 		return ""
 
@@ -68,7 +84,10 @@ class PokeDex100(object):
 			failed_cb("Parse error for pokemon")
 			return False
 		else:
-			data = {"code" : "ok", "detail" : {"name" : name, "cp" : cp, "L" : level, "url" : "http://api.pokedex100.com/discord/free=%s" % url, "urlcode" : url}}
+			shiny = False
+			if self.msg.find('<a:shiny:') != -1:
+				shiny = True
+			data = {"code" : "ok", "detail" : {"name" : name, "cp" : cp, "L" : level, "url" : "http://api.pokedex100.com/discord/free=%s" % url, "urlcode" : url, "shiny" : shiny}}
 			success_cb(data)
 			return True
 

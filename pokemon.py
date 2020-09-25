@@ -15,6 +15,8 @@ def parse_ok_cb(data):
 		print(detail)
 		new_url = detail["url"]
 		telegram_fmt = "%s CP%s L%s URL: %s" % (detail["name"], detail["cp"], detail["L"],new_url)
+		if detail["shiny"]:
+			telegram_fmt = "**" + telegram_fmt
 		telegrambot.sendMessage("@tongvuu", telegram_fmt)
 	else:
 		print("Pokemon %s not sastify the condition" % detail["name"] )
