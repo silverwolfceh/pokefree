@@ -1,10 +1,12 @@
 # -*- coding: UTF-8 -*-
 from pokedex100 import PokeDex100
 from telegrambot import telegrambot
+from generaldb import *
 import json
 import requests
 
-RARE_LIST = ["togetic", "unown", "dragonite", "tyranita", "scyther", "lapras"]
+RARE_LIST_DEFAULT = ["togetic", "unown", "dragonite", "tyranita", "scyther", "lapras"]
+
 def parse_ok_cb(data):
 	detail = data["detail"]
 	pname = detail["name"]
@@ -13,8 +15,9 @@ def parse_ok_cb(data):
 		pname = pname.split(" ")[1]
 	if pname.lower() in telegrambot.get_rare_poke() or int(detail["L"]) >= 30 or int(detail["cp"]) >= 2500:
 		print(detail)
-		new_url = detail["url"]
-		telegram_fmt = "%s CP%s L%s URL: %s" % (detail["name"], detail["cp"], detail["L"],new_url)
+		new_url = "https://pokefree.silverwolfceh.repl.co/showdata?code=%s" % detail["urlcode"]
+		save_pokemon(detail)
+		telegram_fmt = "%s CP%s L%s URL: %s | SHOW: %s" % (detail["name"], detail["cp"], detail["L"],detail["url"], new_url)
 		if detail["shiny"]:
 			telegram_fmt = "**" + telegram_fmt
 		telegrambot.sendMessage("@tongvuu", telegram_fmt)

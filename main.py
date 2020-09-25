@@ -8,6 +8,7 @@ import sys
 from bs4 import BeautifulSoup
 from telegrambot import *
 from discordbot import *
+from generaldb import *
 from pokemon import reveal_cords
 
 app = Flask("SimpleBot")
@@ -26,6 +27,22 @@ def telegrambot_handle():
 def show_current_rare_list():
 	rlist = telegrambot.get_rare_poke()
 	return "<br />".join(rlist)
+
+@app.route("/showdata", methods=["GET"])
+def show_poke_data_from_code():
+	code = request.args.get("code")
+	data = find_by_url_code(code)
+	if len(data) == 0:
+		return "Failed to find related data"
+	else:
+		coord = reveal_cords("http://api.pokedex100.com/discord/free=" + code)
+		if coord == "":
+			return "Failed to reveal coord"
+		else:
+			msg = "%s CP%s LVL%s <br /> %s" %(data["name"], data["cp"], data["L"], coord)
+			return msg
+
+
 
 @app.route("/posttome", methods=["POST", "GET"])
 def post_to_me():
