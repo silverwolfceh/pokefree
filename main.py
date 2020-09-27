@@ -2,13 +2,14 @@ from threading import Thread
 from flask import Flask, render_template, request, url_for
 import requests
 import json
+import time
 import re
 import urllib
 import sys
 from bs4 import BeautifulSoup
 from telegrambot import *
 from discordbot import *
-from generaldb import *
+from recentpokemon import *
 from pokemon import reveal_cords
 
 app = Flask("SimpleBot")
@@ -65,10 +66,17 @@ def keepalive():
 @app.route("/")
 def form():
 	return render_template('index.html')
+
 def run_flash():
 	app.run(host='0.0.0.0', debug=False)
 
+def db_maintain():
+	while True:
+		handle_rare_list_db()
+		time.sleep(5)
+
 if __name__ == "__main__":
 	Thread(target=run_flash).start()
+
 	discord_bot()
 	#app.run(host='0.0.0.0', debug=True)

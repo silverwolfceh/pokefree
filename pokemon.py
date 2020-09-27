@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 from pokedex100 import PokeDex100
 from telegrambot import telegrambot
-from generaldb import *
+from recentpokemon import *
 import json
 import requests
 
