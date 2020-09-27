@@ -19,3 +19,4 @@ def find_by_url_code(urlcode):
 		return []
 	else:
 		data = poke_db_inst.find_by(urlcode, "urlcode")
+		return data

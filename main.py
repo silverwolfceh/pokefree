@@ -80,4 +80,3 @@ if __name__ == "__main__":
 	Thread(target=run_flash).start()
 	Thread(target=db_maintain).start()
 	discord_bot()
-	#app.run(host='0.0.0.0', debug=True)

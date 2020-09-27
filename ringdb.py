@@ -23,9 +23,10 @@ class ringdb:
 		return []
 
 	def get(self, idx):
-		if idx < LIMIT and idx > 0:
+		if idx < self.LIMIT and idx > 0:
 			try:
 				data = db["%s%s" % (self.PREFIX, str(idx))]
+				return data
 			except:
 				print("Not found data at index")
 				return []
