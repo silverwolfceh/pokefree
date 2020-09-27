@@ -6,6 +6,7 @@ import time
 import re
 import urllib
 import sys
+sys.path.append("/Library/Python/3.7/site-packages")
 from bs4 import BeautifulSoup
 from telegrambot import *
 from discordbot import *
@@ -77,6 +78,6 @@ def db_maintain():
 
 if __name__ == "__main__":
 	Thread(target=run_flash).start()
-
+	Thread(target=db_maintain).start()
 	discord_bot()
 	#app.run(host='0.0.0.0', debug=True)
