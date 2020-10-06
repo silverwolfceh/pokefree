@@ -21,24 +21,18 @@ class ringdb:
 
 	def find_by(self, var, varstr):
 		for i in range(0, self.LIMIT):
-			try:
-				#data = db["%s%s" % (self.PREFIX, str(i))]
-				data = self._getdb("%s%s" % (self.PREFIX, str(i)))
-				if data[varstr] == var:
-					return data
-			except:
-				pass
+			data = self._getdb("%s%s" % (self.PREFIX, str(i)))
+			if data != False and data[varstr] == var:
+				return data
 		return []
 
 	def get(self, idx):
 		if idx < self.LIMIT and idx > 0:
-			try:
-				#data = db["%s%s" % (self.PREFIX, str(idx))]
-				data = self._getdb("%s%s" % (self.PREFIX, str(idx)))
-				return data
-			except:
+			data = self._getdb("%s%s" % (self.PREFIX, str(idx)))
+			if data == False:
 				print("Not found data at index")
 				return []
+			return data
 		else:
 			print("Index out of range")
 			return []
