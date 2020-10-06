@@ -1,4 +1,4 @@
-from replit import db
+from kvdb import kvdb
 
 class ringdb:
 	def __init__(self, num_key, key_prefix):
@@ -7,10 +7,10 @@ class ringdb:
 		self.PREFIX = key_prefix
 
 	def _setdb(self, k,v):
-		db[k] = v
+		return kvdb.get_instance().set(k, v)
 	
 	def _getdb(self, k):
-		return db[k]
+		return kvdb.get_instance().get(k)
 
 	def save(self, data):
 		if self.idx >= self.LIMIT:
