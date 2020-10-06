@@ -52,6 +52,15 @@ class PokeDex100(object):
 		for a in attachments:
 			print(a.url)
 
+	def _get_url_from_raw(self, raw):
+		s = raw.find("/free=")
+		e = raw.find(")", s + 1)
+		if s == -1 or e == -1:
+			print("Failed to get url")
+			return ""
+		url = raw[s + 6 : e]
+		return url
+
 	def _get_url(self):
 		embeds = self.discord_msg.embeds
 		#print(self.discord_msg.content)
@@ -59,17 +68,14 @@ class PokeDex100(object):
 		for embed in embeds:
 			if len(embed.description) > 0:
 				raw = str(embed.description)
-				s = raw.find("/free=")
-				e = raw.find(")", s + 1)
-				if s == -1 or e == -1:
-					print("Failed to get url")
-					return ""
-				url = raw[s + 6 : e]
-				return url
+				return self._get_url_from_raw(raw)
+			elif len(embed.fields) > 0:
+				raw = str(embed.fields[0])
+				return self._get_url_from_raw(raw)
 			else:
 				print("Embeded changes")
 				self._embed_debug(embeds)
-				return "^^"
+				return ""
 		print("Failed to find url")
 		return ""
 
