@@ -1,16 +1,11 @@
 from threading import Thread
-from flask import Flask, render_template, request, url_for
-import requests
-import json
+from flask import Flask, render_template, request
 import time
-import re
-import urllib
 import sys
 sys.path.append("/Library/Python/3.7/site-packages")
-from bs4 import BeautifulSoup
-from telegrambot import *
-from discordbot import *
-from recentpokemon import *
+from telegrambot import telegrambot,handle_rare_list_db
+from discordbot import discord_bot
+from recentpokemon import find_by_url_code
 from pokemon import reveal_cords
 
 app = Flask("SimpleBot")
@@ -21,8 +16,7 @@ app.config["DEBUG"] = False
 def telegrambot_handle():
 	if request.method == "POST":
 		postdata = request.data
-		bot = telegrambot(postdata)
-		bot.handle()
+		telegrambot.get_instance().parse(postdata).handle()
 	return ""
 
 @app.route("/showpokes", methods=["GET"])
