@@ -19,11 +19,35 @@ class ringdb:
 		self._setdb("%s%s" % (self.PREFIX, str(self.idx)), data)
 		self.idx = self.idx + 1
 
+	def smart_save(self, var, varstr, data):
+		if self.idx >= self.LIMIT:
+			self.idx = 0
+		cid = self.find_idx(var, varstr)
+		if cid != -1:
+			# Clear
+			self._setdb("%s%s" % (self.PREFIX, str(cid)), False)
+		self._setdb("%s%s" % (self.PREFIX, str(self.idx)), data)
+		self.idx = self.idx + 1
+
+
+	def find_idx(self, var, varstr):
+		for i in range(0, self.LIMIT):
+			data = self._getdb("%s%s" % (self.PREFIX, str(i)))
+			try:
+				if data != False and data[varstr] == var:
+					return i
+			except:
+				pass
+		return -1
+
 	def find_by(self, var, varstr):
 		for i in range(0, self.LIMIT):
 			data = self._getdb("%s%s" % (self.PREFIX, str(i)))
-			if data != False and data[varstr] == var:
-				return data
+			try:
+				if data != False and data[varstr] == var:
+					return data
+			except:
+				pass
 		return []
 
 	def get(self, idx):

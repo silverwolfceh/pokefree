@@ -1,3 +1,5 @@
+import sys
+sys.path.append("/Library/Python/3.7/site-packages")
 import pickledb
 
 class kvdb:
