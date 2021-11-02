@@ -1,0 +1,9 @@
+ {
+      "name": "Pokemon Go Fly / Fake GPS [Việt Nam]",
+      "privacy": "CLOSED",
+      "id": "1901609943449329"
+    },
+
+Open discordbot, facebookbot and telegrambot to put the token or access token here
+
+The pgsharpmail is not needed anymore
